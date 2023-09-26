@@ -1,4 +1,4 @@
-# Payment processing with Checkout Bricks
+# Payment Brick with Review Step
 
 ## :computer: Technologies
 
@@ -16,13 +16,13 @@
 1. Clone the project.
 
 ```bash
-git clone https://github.com/AleFossati/payment-bricks-sample-node.git
+git clone https://github.com/mercadopago/payment-bricks-review-sample-node
 ```
 
 2. Go to the project's folder.
 
 ```bash
-cd payment-bricks-sample-node
+cd payment-bricks-review-sample-node
 ```
 
 3. Then install the dependencies.
