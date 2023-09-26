@@ -3,16 +3,71 @@ const mercadopago = new MercadoPago(mercadoPagoPublicKey);
 let paymentBrickController;
 
 async function loadPaymentForm() {
-    const productCost = document.getElementById('amount').value;
     const unitPrice = document.getElementById('unit-price').innerText;
     const quantity = document.getElementById('quantity').value;
+    const productName = document.getElementById('product-name').innerText;
 
+    // This preference is being created without Shipping and Discounts amounts
+    // If you need this in your product, make sure to send them to your backend 
     const preferenceId = await getPreferenceId(unitPrice, quantity);
+
+    const hardcodedDiscount = 100;
+    const hardcodedShippingCost = 200;
 
     const settings = {
         initialization: {
-            amount: productCost,
-            preferenceId
+            amount: (quantity * unitPrice) + hardcodedShippingCost - hardcodedDiscount,
+            preferenceId,
+            items: {
+                totalItemsAmount: quantity * unitPrice,
+                itemsList: [
+                    {
+                        units: quantity,
+                        value: unitPrice,
+                        name: productName,
+                        imageURL: "img/product.png",
+                    },
+                ],
+            },
+            shipping: {
+                costs: hardcodedShippingCost,
+                shippingMode: "Express",
+                description: "Super Fast",
+                receiverAddress: {
+                    streetName: "Avenida Paulista",
+                    streetNumber: "1234",
+                    neighborhood: "Bela Vista",
+                    city: "São Paulo",
+                    federalUnit: "SP",
+                    zipCode: "01310200",
+                },
+            },
+            billing: {
+                firstName: "Ana",
+                lastName: "Silva",
+                taxIdentificationNumber: "9999",
+                identification: { 
+                    type: "CURP",
+                    number: "123456789",
+                },
+                billingAddress: {
+                    streetName: "Avenida Paulista",
+                    streetNumber: "1234",
+                    neighborhood: "Bela Vista",
+                    city: "São Paulo",
+                    federalUnit: "SP",
+                    zipCode: "01310200",
+                },
+            },
+            discounts: {
+                totalDiscountsAmount: hardcodedDiscount,
+                discountsList: [
+                    {
+                        name: "WELCOME_100",
+                        value: hardcodedDiscount,
+                    },
+                ],
+            },
         },
         callbacks: {
             onReady: () => {
@@ -24,10 +79,65 @@ async function loadPaymentForm() {
             },
             onSubmit: ({ selectedPaymentMethod, formData }) => {
                 return proccessPayment({ selectedPaymentMethod, formData })
-            }
+            },
+            onClickEditShippingData: () => {
+                // This functions notifies you that the buyer wants to edit the Shipping Data.
+                // You can manage to edit the data the way you need.
+                // After that, you can update the brick shipping data using the following commented snippet:
+
+                // paymentBrickController.update({
+                //     shipping: {
+                //         costs: hardcodedShippingCost,
+                //         shippingMode: "Express",
+                //         description: "Super Fast",
+                //         receiverAddress: {
+                //             streetName: "Avenida Paulista",
+                //             streetNumber: "1234",
+                //             neighborhood: "Bela Vista",
+                //             city: "São Paulo",
+                //             federalUnit: "SP",
+                //             zipCode: "01310200",
+                //         },
+                //     }
+                // })
+
+                console.log('onClickEditShippingData')
+            },
+            onClickEditBillingData: () => {
+                // Same as described for the onClickEditShippingData method above.
+
+                // paymentBrickController.update({
+                //     billing: {
+                //         firstName: "Ana",
+                //         lastName: "Silva",
+                //         taxIdentificationNumber: "9999",
+                //         identification: { 
+                //             type: "CURP",
+                //             number: "123456789",
+                //         },
+                //         billingAddress: {
+                //             streetName: "Avenida Paulista",
+                //             streetNumber: "1234",
+                //             neighborhood: "Bela Vista",
+                //             city: "São Paulo",
+                //             federalUnit: "SP",
+                //             zipCode: "01310200",
+                //         },
+                //     },
+                // })
+                
+                console.log('onClickEditBillingData')
+            },
+            onRenderNextStep: (currentStep) => {
+                console.log('onRenderNextStep', currentStep)
+            },
+            onRenderPreviousStep: (currentStep) => {
+                console.log('onRenderPreviousStep', currentStep)
+            },
         },
         locale: 'en',
         customization: {
+            enableReviewStep: true,
             paymentMethods: {
                 creditCard: 'all',
                 debitCard: 'all',
