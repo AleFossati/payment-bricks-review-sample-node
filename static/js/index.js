@@ -81,25 +81,11 @@ async function loadPaymentForm() {
                 return proccessPayment({ selectedPaymentMethod, formData })
             },
             onClickEditShippingData: () => {
-                // This functions notifies you that the buyer wants to edit the Shipping Data.
-                // You can manage to edit the data the way you need.
-                // After that, you can update the brick shipping data using the following commented snippet:
-
-                // paymentBrickController.update({
-                //     shipping: {
-                //         costs: hardcodedShippingCost,
-                //         shippingMode: "Express",
-                //         description: "Super Fast",
-                //         receiverAddress: {
-                //             streetName: "Avenida Paulista",
-                //             streetNumber: "1234",
-                //             neighborhood: "Bela Vista",
-                //             city: "São Paulo",
-                //             federalUnit: "SP",
-                //             zipCode: "01310200",
-                //         },
-                //     }
-                // })
+                $('.container__payment').fadeOut(500);
+                setTimeout(() => {
+                    loadPaymentForm();
+                    $('.container__shipping').show(500).fadeIn();
+                }, 500);
 
                 console.log('onClickEditShippingData')
             },
