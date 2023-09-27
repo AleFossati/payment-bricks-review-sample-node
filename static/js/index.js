@@ -11,7 +11,7 @@ async function loadPaymentForm() {
     // If you need this in your product, make sure to send them to your backend 
     const preferenceId = await getPreferenceId(unitPrice, quantity);
 
-    const hardcodedDiscount = 100;
+    const hardcodedDiscount = 500;
     const hardcodedShippingCost = 200;
 
     const settings = {

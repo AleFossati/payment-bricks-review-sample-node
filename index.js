@@ -30,6 +30,11 @@ app.get("/", function (_, res) {
   res.status(200).render("index", { mercadoPagoPublicKey });
 });
 
+app.get("/payment_status", (req, res) => {
+  const { payment_id: paymentId } = req.query;
+  res.status(200).render("status", { mercadoPagoPublicKey, paymentId });
+});
+
 app.get("/preference_id", async function (req, res) {
   const { unitPrice, quantity } = req.query;
 
