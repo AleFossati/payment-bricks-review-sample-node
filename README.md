@@ -36,24 +36,12 @@ npm install
 1. Run the following command to start the application:
 
 ```bash
-npm run localtunnel
+MERCADO_PAGO_SAMPLE_PUBLIC_KEY=YOUR_PUBLIC_KEY MERCADO_PAGO_SAMPLE_ACCESS_TOKEN=YOUR_ACCESS_TOKEN npm start
 ``` 
 
-2. Copy the generated URL: _(it may take a few seconds to show the URL)_
+2. Remember to replace the values of `YOUR_PUBLIC_KEY` and `YOUR_ACCESS_TOKEN` with the corresponding [credentials](https://www.mercadopago.com/developers/panel) from your account.
 
-<img width="807" alt="image" src="https://user-images.githubusercontent.com/104934463/210627117-395d328b-3f6a-4255-be18-9976ffbd6802.png">
-
-3. Keep the previous terminal instance running and open a new one. In the new terminal instance, run the following command:
-
-```bash
-MERCADO_PAGO_SAMPLE_PUBLIC_KEY=YOUR-PUBLIC-KEY MERCADO_PAGO_SAMPLE_ACCESS_TOKEN=YOUR-ACCESS-TOKEN npm start
-``` 
-
-4. Remember to replace `YOUR-URL` with the URL from the step 2, `YOUR_PUBLIC_KEY` and `YOUR_ACCESS_TOKEN` with the corresponding [credentials](https://www.mercadopago.com/developers/panel) from your account.
-
-5. Navigate to `YOUR-URL` from step 2 in your browser. In your first access to this URL, you will be prompted with a warning page. You'll need to inform your public IP Address, but don't worry, the warning page shows you how you can do that. Then paste your public IP in the input field and  **"Click to Submit"**.
-
-6. That's all, now you can access your localhost running app through the URL exposed by localtunnel.
+3. Navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ### :test_tube: Testing
 
