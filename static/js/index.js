@@ -90,27 +90,11 @@ async function loadPaymentForm() {
                 console.log('onClickEditShippingData')
             },
             onClickEditBillingData: () => {
-                // Same as described for the onClickEditShippingData method above.
-
-                // paymentBrickController.update({
-                //     billing: {
-                //         firstName: "Ana",
-                //         lastName: "Silva",
-                //         taxIdentificationNumber: "9999",
-                //         identification: { 
-                //             type: "CURP",
-                //             number: "123456789",
-                //         },
-                //         billingAddress: {
-                //             streetName: "Avenida Paulista",
-                //             streetNumber: "1234",
-                //             neighborhood: "Bela Vista",
-                //             city: "São Paulo",
-                //             federalUnit: "SP",
-                //             zipCode: "01310200",
-                //         },
-                //     },
-                // })
+                $('.container__payment').fadeOut(500);
+                setTimeout(() => {
+                    loadPaymentForm();
+                    $('.container__billing').show(500).fadeIn();
+                }, 500);
                 
                 console.log('onClickEditBillingData')
             },

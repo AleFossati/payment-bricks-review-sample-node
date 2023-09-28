@@ -38,10 +38,27 @@ main {
     color: aquamarine;
 }
 
+.form-container {
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    background-color: #1d2431;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    border-top: 2px solid gray;
+    max-width: 600px;
+    margin: auto;
+}
+
+.form-container button {
+    background: aquamarine;
+    color: #1d2431;
+}
+
 /* Shopping Cart Section - Start */
 .shopping-cart {
-    padding-bottom: 10px;
-    overflow:hidden;
+    overflow: hidden;
     transition: max-height 5s ease-in-out;
 }
 
@@ -164,13 +181,6 @@ main {
 /* Payment Section - Start */
 .container__payment {
     display: none;
-}
-
-.payment-form {
-    padding-bottom: 10px;
-    margin-right: 15px;
-    margin-left: 15px;
-    font-family: "Helvetica Neue",Helvetica,sans-serif;
 }
 
 .payment-form.dark {
@@ -419,27 +429,8 @@ footer p a:hover {
     display: none;
 }
 
-.edit-form {
-    padding-bottom: 10px;
-    margin-right: 15px;
-    margin-left: 15px;
-    font-family: "Helvetica Neue",Helvetica,sans-serif;
-}
+/* Edit Billing */
 
-.content-update {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-    background-color: #1d2431;
-
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-
-    border-top: 2px solid gray;
-    max-width: 600px;
-    margin: auto;
-}
-
-#shipping-form {
-    margin-top: 40px;
-    width: 300px;
+.container__billing {
+    display: none;
 }

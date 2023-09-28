@@ -60,39 +60,109 @@
                 </div>
             </section>
             <!-- Edit Shipping -->
-            <section class="edit-form">
+            <section>
                 <div class="container__shipping">
                     <div class="block-heading">
                         <h2>Edit Shipping Information</h2>
                         <p>This is an example of Mercado Pago Payment Brick Integration</p>
                     </div>
-                    <div class="content-update">
-                        <form id="shipping-form">
-                            <div class="form-group">
-                                <label for="streetName">Steet name:</label>
-                                <input class="form-control" type="text" id="streetName" name="streetName">
-                            </div>
-                            <div class="form-group">
-                                <label for="streetNumber">Street number:</label>
-                                <input class="form-control" type="number" id="streetNumber" name="streetNumber">
+                    <div class="form-container">
+                        <form id="shipping-form" class="mt-4">
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="streetName">Steet name:</label>
+                                    <input class="form-control" type="text" id="shippingStreetName" name="streetName">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="streetNumber">Number:</label>
+                                    <input class="form-control" type="number" id="shippingStreetNumber" name="streetNumber">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="neighborhood">Neighborhood:</label>
-                                <input class="form-control" type="text" id="neighborhood" name="neighborhood">
+                                <input class="form-control" type="text" id="shippingNeighborhood" name="neighborhood">
                             </div>
-                            <div class="form-group">
-                                <label for="city">City:</label>
-                                <input class="form-control" type="text" id="city" name="city">
-                            </div>
-                            <div class="form-group">
-                                <label for="federalUnit">Federal unit:</label>
-                                <input class="form-control" type="text" id="federalUnit" name="federalUnit">
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="city">City:</label>
+                                    <input class="form-control" type="text" id="shippingCity" name="city">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="federalUnit">Federal unit:</label>
+                                    <input class="form-control" type="text" id="shippingFederalUnit" name="federalUnit">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="zipCode">Zip code:</label>
-                                <input class="form-control" type="text" id="zipCode" name="zipCode">
+                                <input class="form-control" type="text" id="shippingZipCode" name="zipCode">
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <!-- Edit Billing -->
+            <section>
+                <div class="container__billing">
+                    <div class="block-heading">
+                        <h2>Edit Billing Information</h2>
+                        <p>This is an example of Mercado Pago Payment Brick Integration</p>
+                    </div>
+                    <div class="form-container">
+                        <form id="billing-form" class="mt-4">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="firstName">First name:</label>
+                                    <input class="form-control" type="text" id="firstName" name="firstName">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="lastName">Last name:</label>
+                                    <input class="form-control" type="text" id="lastName" name="lastName">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="idType">ID type:</label>
+                                    <input class="form-control" type="text" id="idType" name="identidTypeification">
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="idNumber">ID number:</label>
+                                    <input class="form-control" type="text" id="idNumber" name="idNumber">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="streetName">Steet name:</label>
+                                    <input class="form-control" type="text" id="billingStreetName" name="streetName">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="streetNumber">Number:</label>
+                                    <input class="form-control" type="number" id="billingStreetNumber" name="streetNumber">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="neighborhood">Neighborhood:</label>
+                                <input class="form-control" type="text" id="billingNeighborhood" name="neighborhood">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="city">City:</label>
+                                    <input class="form-control" type="text" id="billingCity" name="city">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="federalUnit">Federal unit:</label>
+                                    <input class="form-control" type="text" id="billingFederalUnit" name="federalUnit">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">Zip code:</label>
+                                <input class="form-control" type="text" id="billingZipCode" name="zipCode">
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
                         </form>
                     </div>
                 </div>
