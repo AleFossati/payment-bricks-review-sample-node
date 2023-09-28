@@ -1,6 +1,60 @@
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const idType = document.getElementById('idType');
+const idNumber = document.getElementById('idNumber');
+
+const shippingStreetName = document.getElementById('shippingStreetName');
+const shippingStreetNumber = document.getElementById('shippingStreetNumber');
+const shippingNeighborhood = document.getElementById('shippingNeighborhood');
+const shippingCity = document.getElementById('shippingCity');
+const shippingFederalUnit = document.getElementById('shippingFederalUnit');
+const shippingZipCode = document.getElementById('shippingZipCode');
+
+const billingStreetName = document.getElementById('billingStreetName');
+const billingStreetNumber = document.getElementById('billingStreetNumber');
+const billingNeighborhood = document.getElementById('billingNeighborhood');
+const billingCity = document.getElementById('billingCity');
+const billingFederalUnit = document.getElementById('billingFederalUnit');
+const billingZipCode = document.getElementById('billingZipCode');
+
 const mercadoPagoPublicKey = document.getElementById("mercado-pago-public-key").value;
 const mercadopago = new MercadoPago(mercadoPagoPublicKey);
 let paymentBrickController;
+
+const HARDCODED_DISCOUNT = 500;
+const HARDCODED_SHIPPING_COST = 200;
+
+let billingData = {
+    firstName: "Ana",
+    lastName: "Silva",
+    taxIdentificationNumber: "9999",
+    identification: { 
+        type: "CURP",
+        number: "123456789",
+    },
+    billingAddress: {
+        streetName: "Avenida Paulista",
+        streetNumber: "1234",
+        neighborhood: "Bela Vista",
+        city: "São Paulo",
+        federalUnit: "SP",
+        zipCode: "01310200",
+    },
+};
+
+let shippingData = {
+    costs: HARDCODED_SHIPPING_COST,
+    shippingMode: "Express",
+    description: "Super Fast",
+    receiverAddress: {
+        streetName: "Avenida Paulista",
+        streetNumber: "1234",
+        neighborhood: "Bela Vista",
+        city: "São Paulo",
+        federalUnit: "SP",
+        zipCode: "01310200",
+    },
+}
 
 async function loadPaymentForm() {
     const unitPrice = document.getElementById('unit-price').innerText;
@@ -11,12 +65,9 @@ async function loadPaymentForm() {
     // If you need this in your product, make sure to send them to your backend 
     const preferenceId = await getPreferenceId(unitPrice, quantity);
 
-    const hardcodedDiscount = 500;
-    const hardcodedShippingCost = 200;
-
     const settings = {
         initialization: {
-            amount: (quantity * unitPrice) + hardcodedShippingCost - hardcodedDiscount,
+            amount: (quantity * unitPrice) + HARDCODED_SHIPPING_COST - HARDCODED_DISCOUNT,
             preferenceId,
             items: {
                 totalItemsAmount: quantity * unitPrice,
@@ -29,42 +80,14 @@ async function loadPaymentForm() {
                     },
                 ],
             },
-            shipping: {
-                costs: hardcodedShippingCost,
-                shippingMode: "Express",
-                description: "Super Fast",
-                receiverAddress: {
-                    streetName: "Avenida Paulista",
-                    streetNumber: "1234",
-                    neighborhood: "Bela Vista",
-                    city: "São Paulo",
-                    federalUnit: "SP",
-                    zipCode: "01310200",
-                },
-            },
-            billing: {
-                firstName: "Ana",
-                lastName: "Silva",
-                taxIdentificationNumber: "9999",
-                identification: { 
-                    type: "CURP",
-                    number: "123456789",
-                },
-                billingAddress: {
-                    streetName: "Avenida Paulista",
-                    streetNumber: "1234",
-                    neighborhood: "Bela Vista",
-                    city: "São Paulo",
-                    federalUnit: "SP",
-                    zipCode: "01310200",
-                },
-            },
+            shipping: shippingData,
+            billing: billingData,
             discounts: {
-                totalDiscountsAmount: hardcodedDiscount,
+                totalDiscountsAmount: HARDCODED_DISCOUNT,
                 discountsList: [
                     {
                         name: "WELCOME_100",
-                        value: hardcodedDiscount,
+                        value: HARDCODED_DISCOUNT,
                     },
                 ],
             },
@@ -81,22 +104,14 @@ async function loadPaymentForm() {
                 return proccessPayment({ selectedPaymentMethod, formData })
             },
             onClickEditShippingData: () => {
-                $('.container__payment').fadeOut(500);
-                setTimeout(() => {
-                    loadPaymentForm();
-                    $('.container__shipping').show(500).fadeIn();
-                }, 500);
-
-                console.log('onClickEditShippingData')
+                /* Notice that the edit process happens in the same page,
+                because we need to keep the same bricks instance */
+                goToEditShipping();
             },
             onClickEditBillingData: () => {
-                $('.container__payment').fadeOut(500);
-                setTimeout(() => {
-                    loadPaymentForm();
-                    $('.container__billing').show(500).fadeIn();
-                }, 500);
-                
-                console.log('onClickEditBillingData')
+                /* Notice that the edit process happens in the same page,
+                because we need to keep the same bricks instance */
+                goToEditBilling();
             },
             onRenderNextStep: (currentStep) => {
                 console.log('onRenderNextStep', currentStep)
@@ -111,10 +126,8 @@ async function loadPaymentForm() {
             paymentMethods: {
                 creditCard: 'all',
                 debitCard: 'all',
-                /*
-                    If some of the following payment methods is not valid for your country,
-                    the Brick will show a warning message in the browser console
-                */
+                /* If some of the following payment methods is not valid for your country,
+                the Brick will show a warning message in the browser console */
                 ticket: 'all',
                 atm: 'all',
                 bankTransfer: 'all',
@@ -146,7 +159,7 @@ const proccessPayment = ({ selectedPaymentMethod, formData }) => {
     return new Promise((resolve, reject) => {
         if (selectedPaymentMethod === 'wallet_purchase' || selectedPaymentMethod === 'onboarding_credits') {
             // wallet_purchase and onboarding_credits does not need to be sent to backend
-            navToWallet();
+            fadeTransition('.container__payment', '.container__result'),
             resolve();
         } else {
             /*
@@ -185,6 +198,79 @@ const proccessPayment = ({ selectedPaymentMethod, formData }) => {
     });
 }
 
+function goToEditShipping() {
+    shippingStreetName.value = shippingData.receiverAddress.streetName;
+    shippingStreetNumber.value = shippingData.receiverAddress.streetNumber;
+    shippingNeighborhood.value = shippingData.receiverAddress.neighborhood;
+    shippingCity.value = shippingData.receiverAddress.city;
+    shippingFederalUnit.value = shippingData.receiverAddress.federalUnit;
+    shippingZipCode.value = shippingData.receiverAddress.zipCode;
+    
+    fadeTransition('.container__payment', '.container__shipping');
+}
+
+function goToEditBilling() {
+    firstName.value = billingData.firstName;
+    lastName.value = billingData.lastName;
+    idType.value = billingData.identification.type;
+    idNumber.value = billingData.identification.number;
+    billingStreetName.value = billingData.billingAddress.streetName;
+    billingStreetNumber.value = billingData.billingAddress.streetNumber;
+    billingNeighborhood.value = billingData.billingAddress.neighborhood;
+    billingCity.value = billingData.billingAddress.city;
+    billingFederalUnit.value = billingData.billingAddress.federalUnit;
+    billingZipCode.value = billingData.billingAddress.zipCode;
+
+    fadeTransition('.container__payment', '.container__billing');
+}
+
+function getShippingFormData() {
+    shippingData = {
+        costs: HARDCODED_SHIPPING_COST,
+        shippingMode: "Express",
+        description: "Super Fast",
+        receiverAddress: {
+            streetName: shippingStreetName.value,
+            streetNumber: shippingStreetNumber.value,
+            neighborhood: shippingNeighborhood.value,
+            city: shippingCity.value,
+            federalUnit: shippingFederalUnit.value,
+            zipCode: shippingZipCode.value,
+        },
+    };
+
+    return { shipping: shippingData };
+}
+
+function getBillingFormData() {
+    billingData = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        taxIdentificationNumber: "9999",
+        identification: { 
+            type: idType.value,
+            number: idNumber.value,
+        },
+        billingAddress: {
+            streetName: billingStreetName.value,
+            streetNumber: billingStreetNumber.value,
+            neighborhood: billingNeighborhood.value,
+            city: billingCity.value,
+            federalUnit: billingFederalUnit.value,
+            zipCode: billingZipCode.value,
+        },
+    };
+
+    return { billing: billingData };
+}
+
+function fadeTransition(currentElement, futureElement) {
+    $(currentElement).fadeOut(500);
+    setTimeout(() => {
+        $(futureElement).show(500).fadeIn();
+    }, 500);
+}
+
 // Handle transitions
 document.getElementById('checkout-btn').addEventListener('click', function () {
     $('.container__cart').fadeOut(500);
@@ -194,18 +280,35 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
     }, 500);
 });
 
-document.getElementById('go-back').addEventListener('click', function () {
-    $('.container__payment').fadeOut(500);
-    setTimeout(() => { $('.container__cart').show(500).fadeIn(); }, 500);
+document.getElementById('go-back')
+    .addEventListener('click', fadeTransition('.container__payment', '.container__cart'));
+
+// Handle update billing/shipping
+document.getElementById('shipping-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const updatedShippingData = getShippingFormData();
+    const updateResult = paymentBrickController.update(updatedShippingData);
+
+    if (updateResult) {
+        fadeTransition('.container__shipping', '.container__payment')
+    } else {
+        alert('Update shipping data failed')
+    }
 });
 
-function navToWallet() {
-    $('.container__payment').fadeOut(500);
-    setTimeout(() => {
-        loadPaymentForm();
-        $('.container__result').show(500).fadeIn();
-    }, 500);
-};
+document.getElementById('billing-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const updatedBillingData = getBillingFormData();
+    const updateResult = paymentBrickController.update(updatedBillingData);
+
+    if (updateResult) {
+        fadeTransition('.container__billing', '.container__payment')
+    } else {
+        alert('Update billing data failed')
+    }
+});
 
 // Handle price update
 function updatePrice() {
