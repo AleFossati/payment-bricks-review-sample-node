@@ -281,7 +281,7 @@ document.getElementById('checkout-btn').addEventListener('click', function () {
 });
 
 document.getElementById('go-back')
-    .addEventListener('click', fadeTransition('.container__payment', '.container__cart'));
+    .addEventListener('click', () => fadeTransition('.container__payment', '.container__cart'));
 
 // Handle update billing/shipping
 document.getElementById('shipping-form').addEventListener('submit', function (e) {
