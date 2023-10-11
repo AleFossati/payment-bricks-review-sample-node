@@ -201,6 +201,10 @@ main {
     margin: auto;
 }
 
+/* .form-payment {
+    margin-bottom: 1rem;
+} */
+
 .payment-form .title {
     font-size: 1em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -394,13 +398,9 @@ footer p a:hover {
     display: none;
 }
 
-/* Loading Spinner */
-
-#loader-container {
-    padding: 40px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+#statusScreenBrick_container, #mercadopago-bricks-contaner__Payment {
+    width: 500px;
+    margin: auto;
 }
 
 .loader {

@@ -19,7 +19,6 @@ const billingZipCode = document.getElementById('billingZipCode');
 
 const mercadoPagoPublicKey = document.getElementById("mercado-pago-public-key").value;
 const mercadopago = new MercadoPago(mercadoPagoPublicKey);
-let paymentBrickController;
 
 const HARDCODED_DISCOUNT = 500;
 const HARDCODED_SHIPPING_COST = 200;
@@ -28,7 +27,7 @@ let billingData = {
     firstName: "Ana",
     lastName: "Silva",
     taxIdentificationNumber: "9999",
-    identification: { 
+    identification: {
         type: "CURP",
         number: "123456789",
     },
@@ -94,7 +93,6 @@ async function loadPaymentForm() {
         },
         callbacks: {
             onReady: () => {
-                document.getElementById('loader-container').style.display = 'none'
                 console.log('brick ready')
             },
             onError: (error) => {
@@ -146,7 +144,7 @@ async function loadPaymentForm() {
     }
 
     const bricks = mercadopago.bricks();
-    paymentBrickController = await bricks.create('payment', 'mercadopago-bricks-contaner__Payment', settings);
+    window.paymentBrickController = await bricks.create('payment', 'mercadopago-bricks-contaner__Payment', settings);
 };
 
 const getPreferenceId = async (unitPrice, quantity) => {
@@ -160,7 +158,7 @@ const proccessPayment = ({ selectedPaymentMethod, formData }) => {
         if (selectedPaymentMethod === 'wallet_purchase' || selectedPaymentMethod === 'onboarding_credits') {
             // wallet_purchase and onboarding_credits does not need to be sent to backend
             fadeTransition('.container__payment', '.container__result'),
-            resolve();
+                resolve();
         } else {
             /*
                 Here you can add properties to formData if you want to.
@@ -182,7 +180,7 @@ const proccessPayment = ({ selectedPaymentMethod, formData }) => {
                 .then(response => response.json())
                 .then((json) => {
                     const { error_message } = json;
-                    if(error_message) {
+                    if (error_message) {
                         alert(`Error: ${JSON.stringify(error_message)}`)
                         reject();
                     } else {
@@ -205,7 +203,7 @@ function goToEditShipping() {
     shippingCity.value = shippingData.receiverAddress.city;
     shippingFederalUnit.value = shippingData.receiverAddress.federalUnit;
     shippingZipCode.value = shippingData.receiverAddress.zipCode;
-    
+
     fadeTransition('.container__payment', '.container__shipping');
 }
 
@@ -247,7 +245,7 @@ function getBillingFormData() {
         firstName: firstName.value,
         lastName: lastName.value,
         taxIdentificationNumber: "9999",
-        identification: { 
+        identification: {
             type: idType.value,
             number: idNumber.value,
         },
@@ -288,7 +286,7 @@ document.getElementById('shipping-form').addEventListener('submit', function (e)
     e.preventDefault();
 
     const updatedShippingData = getShippingFormData();
-    const updateResult = paymentBrickController.update(updatedShippingData);
+    const updateResult = window.paymentBrickController.update(updatedShippingData);
 
     if (updateResult) {
         fadeTransition('.container__shipping', '.container__payment')
@@ -301,7 +299,7 @@ document.getElementById('billing-form').addEventListener('submit', function (e) 
     e.preventDefault();
 
     const updatedBillingData = getBillingFormData();
-    const updateResult = paymentBrickController.update(updatedBillingData);
+    const updateResult = window.paymentBrickController.update(updatedBillingData);
 
     if (updateResult) {
         fadeTransition('.container__billing', '.container__payment')

@@ -10,7 +10,6 @@ async function loadPaymentForm() {
         },
         callbacks: {
             onReady: () => {
-                document.getElementById('loader-container').style.display = 'none'
                 console.log('brick ready')
             },
             onError: (error) => {
@@ -30,7 +29,7 @@ async function loadPaymentForm() {
             }
         }
     };
-    
+
     const bricksBuilder = mercadopago.bricks();
     statusScreenBrickController = await bricksBuilder.create('statusScreen', 'statusScreenBrick_container', settings);
 };
