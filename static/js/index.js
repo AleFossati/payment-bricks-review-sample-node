@@ -53,6 +53,7 @@ let shippingData = {
         city: "São Paulo",
         federalUnit: "SP",
         zipCode: "01310200",
+        additionalInformation: "A campainha não funciona",
     },
 }
 
